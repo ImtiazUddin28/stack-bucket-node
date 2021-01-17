@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
+const routes = require('./routes')
 
 const app = express()
 
@@ -11,6 +12,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'))
 app.use(express.static(path.join(__dirname, '../','public')));
 
+routes(app);
 app.get('/', (req, res) => {
 	
 	res.send('Hello World!')
@@ -24,6 +26,7 @@ app.use((req, res, next) => {
 });
 
 app.use((error, req, res, next) => {
+	console.log(error)
 	if (error.status === 404) {
 		res.status(404);
 		return res.render('errors/404')
